@@ -1,3 +1,4 @@
+import 'package:fludftter_app/tab.dart';
 import 'package:flutter/material.dart';
 
 import 'main2.dart';
@@ -83,6 +84,12 @@ class IndexPage extends StatelessWidget{
                   fontStyle: FontStyle.normal,
                   fontWeight: FontWeight.bold,
                 ),
+              ),
+              RaisedButton(
+                onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => TabView()));
+                },
+                child: Text("进入Tab测试页"),
               ),
               Image.network(
                 ok,
