@@ -1,8 +1,8 @@
+import 'package:fludftter_app/ListView.dart';
 import 'package:fludftter_app/tab.dart';
 import 'package:flutter/material.dart';
 
 import 'main2.dart';
-
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -90,6 +90,12 @@ class IndexPage extends StatelessWidget{
                   Navigator.push(context, MaterialPageRoute(builder: (context) => TabView()));
                 },
                 child: Text("进入Tab测试页"),
+              ),
+              RaisedButton(
+                onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => MyListView()));
+                },
+                child: Text("进入listView"),
               ),
               Image.network(
                 ok,
