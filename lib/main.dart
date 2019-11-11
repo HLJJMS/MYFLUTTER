@@ -3,6 +3,7 @@ import 'package:fludftter_app/tab.dart';
 import 'package:flutter/material.dart';
 
 import 'main2.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -10,13 +11,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Welcome to Flutter',
-
       home: IndexPage(),
     );
   }
 }
-
-
 
 class SecondPage extends StatelessWidget {
   @override
@@ -38,8 +36,7 @@ class SecondPage extends StatelessWidget {
   }
 }
 
-
-class IndexPage extends StatelessWidget{
+class IndexPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -62,7 +59,6 @@ class IndexPage extends StatelessWidget{
           child: Text('抽屉'),
         ),
       ),
-
       body: Padding(
           padding: EdgeInsets.all(0.0),
           child: Column(
@@ -86,14 +82,16 @@ class IndexPage extends StatelessWidget{
                 ),
               ),
               RaisedButton(
-                onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => TabView()));
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => TabView()));
                 },
                 child: Text("进入Tab测试页"),
               ),
               RaisedButton(
-                onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => MyListView()));
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => MyListView()));
                 },
                 child: Text("进入listView"),
               ),
@@ -106,20 +104,22 @@ class IndexPage extends StatelessWidget{
               RaisedButton(
                 onPressed: () {
                   print("onPressed");
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => OkApp()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => OkApp()));
                   ok = "https://s2.ax1x.com/2019/05/27/VZrNNR.png";
-
                 },
                 color: Colors.red,
                 textColor: Colors.blue,
-                child: Image.network(
-                    "https://s2.ax1x.com/2019/05/27/VZrNNR.png"),
+                child: Image.asset(
+                  "assets/image/kk.png",
+                  height: 50,
+                ),
               ),
               Container(
                 child: Row(
                   children: <Widget>[
                     Expanded(
-                     child: Text("将屏幕横向评分两份,我是第一份"),
+                      child: Text("将屏幕横向评分两份,我是第一份"),
                       flex: 1,
                     ),
                     Expanded(
