@@ -1,4 +1,5 @@
 import 'package:fludftter_app/ListView.dart';
+import 'package:fludftter_app/Login.dart';
 import 'package:fludftter_app/tab.dart';
 import 'package:flutter/material.dart';
 
@@ -94,6 +95,14 @@ class IndexPage extends StatelessWidget {
                       MaterialPageRoute(builder: (context) => MyListView()));
                 },
                 child: Text("进入listView"),
+              ),
+
+              RaisedButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Login()));
+                },
+                child: Text("登录页"),
               ),
               Image.network(
                 ok,
