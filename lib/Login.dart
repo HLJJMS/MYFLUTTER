@@ -8,6 +8,9 @@ import 'package:flutter/painting.dart';
 
 import 'package:http/http.dart' as http;
 
+import 'bean_entity.dart';
+
+
 class Login extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -23,6 +26,7 @@ class _LoginPageState extends State<Login> {
     var password = new TextEditingController();
     HttpClient _httpClient = HttpClient();
     var url="http://47.105.78.210:11420/api/";
+   var url2="http://api.go2map.com/engine/api/regeocoder/json?";
     ok() async {
       print("账号；${phone.text}");
       print("密码；${password.text}");
@@ -33,14 +37,18 @@ class _LoginPageState extends State<Login> {
       params["gps"] = "California Mountain View Mountain View ";
       params["phoneModel"] = "android";
       FormData data= FormData.from({
-        "mobile":phone.text,
-        "password":password.text,
+        "points":"113.921076000000,22.499654000000",
+        "type":"1",
       });
-      Response   response = await Dio().post(url,data: data);
+      Response   response = await Dio().post(url2,data: data);
       var shuju =json.decode(response.toString());
       print("post方式->status: ${shuju}");
 //      Response  response = await Dio().get("http://api.go2map.com/engine/api/regeocoder/json?points=113.921076000000,22.499654000000&type=1");
-//      print("结果；${ response.toString()}");
+//      print("结果GET；${ response.toString()}");
+//      var shuju =json.decode(response.toString());
+//      BeanEntity bean=BeanEntity.fromJson(shuju);
+//     var a = bean.response.data.elementAt(0).address;
+//      print("结果；${a}");
     }
     return Scaffold(
         appBar: new AppBar(
