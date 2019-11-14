@@ -100,7 +100,7 @@ class IndexPage extends StatelessWidget {
               RaisedButton(
                 onPressed: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Login()));
+                      MaterialPageRoute(builder: (context) => Login(txt: "txt",)));
                 },
                 child: Text("登录页"),
               ),
