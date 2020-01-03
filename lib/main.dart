@@ -1,148 +1,78 @@
-import 'package:fludftter_app/ListView.dart';
-import 'package:fludftter_app/Login.dart';
-import 'package:fludftter_app/tab.dart';
+import 'dart:io';
+
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_app/ChildTreePage.dart';
+import 'package:flutter_app/SecondPage.dart';
+import 'package:flutter_app/StateDemoPage.dart';
+import 'package:flutter_app/TapboxAPage.dart';
+import 'package:flutter_app/application.dart';
+import 'package:flutter_app/liuc/model/OneModel.dart';
+import 'package:flutter_app/liuc/model/weatherModel.dart';
+import 'package:flutter_app/liuc/service/newsService.dart';
+import 'package:flutter_app/routes.dart';
+import 'package:flutter_app/tool/data_helper.dart';
+import 'package:provider/provider.dart';
+import 'Demo.dart';
+import 'RandomWords.dart';
+import 'liuc/provider/CounterModel.dart';
+// import 'package:english_words/english_words.dart';
 
-import 'main2.dart';
+Future<WeatherModel> loadInitData() async {
+  return await NewsService.queryWeatherList();
+}
 
-void main() => runApp(MyApp());
+void main() async {
+  if (Platform.isAndroid) {
+    // 以下两行 设置android状态栏为透明的沉浸。写在组件渲染之后，是为了在渲染后进行set赋值，覆盖状态栏，写在渲染之前MaterialApp组件会覆盖掉这个值。
+    SystemUiOverlayStyle systemUiOverlayStyle =
+        SystemUiOverlayStyle(statusBarColor: Colors.transparent);
+    SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
+  }
+
+  final counter = CounterModel();
+  var om = await loadInitData();
+  counter.setWeatherMOdel(om);
+  final textSize = 48;
+  runApp(MultiProvider(providers: [
+    Provider<int>.value(value: textSize),
+    ChangeNotifierProvider.value(
+      value: counter,
+    ),
+  ], child: MyApp()));
+}
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Welcome to Flutter',
-      home: IndexPage(),
-    );
-  }
-}
+    // final wordPair = new WordPair.random();
+    var router = Router();
+    Routes.configureRoutes(router);
+    Application.router = router;
 
-class SecondPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('第二页'),
-        leading: FlutterLogo(colors: Colors.lightGreen),
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(30.0),
-        child: RaisedButton(
-            child: Text('回到上一页'),
-            onPressed: () {
-              Navigator.pop(context); //2
-            }),
-      ),
-    );
-  }
-}
-
-class IndexPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    var ok =
-        "https://gss3.bdstatic.com/-Po3dSag_xI4khGkpoWK1HF6hhy/baike/w%3D268%3Bg%3D0/sign=9bc84be4289759ee4a5067cd8ac0242b/94cad1c8a786c917ec0c7dd0c73d70cf3ac757cf.jpg";
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Basics Widget'),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.share),
-            onPressed: () {
-              print('添加按钮');
-            },
-          ),
-        ],
-      ),
-      drawer: Drawer(
-        child: Center(
-          child: Text('抽屉'),
-        ),
-      ),
-      body: Padding(
-          padding: EdgeInsets.all(0.0),
-          child: Column(
-            children: <Widget>[
-              Text(
-                '文本样式',
-                style: TextStyle(
-                  fontSize: 16.0,
-                  color: Colors.indigo,
-                  fontStyle: FontStyle.normal,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Text(
-                '文本样式',
-                style: TextStyle(
-                  fontSize: 16.0,
-                  color: Colors.indigo,
-                  fontStyle: FontStyle.normal,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              RaisedButton(
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => TabView()));
-                },
-                child: Text("进入Tab测试页"),
-              ),
-              RaisedButton(
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => MyListView()));
-                },
-                child: Text("进入listView"),
-              ),
-
-              RaisedButton(
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Login(txt: "txt",)));
-                },
-                child: Text("登录页"),
-              ),
-              Image.network(
-                ok,
-                width: 200,
-                height: 200,
-                fit: BoxFit.cover,
-              ),
-              RaisedButton(
-                onPressed: () {
-                  print("onPressed");
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => OkApp()));
-                  ok = "https://s2.ax1x.com/2019/05/27/VZrNNR.png";
-                },
-                color: Colors.red,
-                textColor: Colors.blue,
-                child: Image.asset(
-                  "assets/image/kk.png",
-                  height: 50,
-                ),
-              ),
-              Container(
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: Text("将屏幕横向评分两份,我是第一份"),
-                      flex: 1,
-                    ),
-                    Expanded(
-                      child: Text("将屏幕横向评分两份,我是第二份"),
-                      flex: 2,
-                    ),
-                    Container(
-                      child: Column(),
-                    )
-                  ],
-                ),
-              )
-            ],
+    return new MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
+      initialRoute: "/",
+      // 设置主题主颜色与按钮颜色
+      theme: new ThemeData(
+          primaryColor: Colors.green,
+          buttonColor: Colors.green,
+          splashColor: Colors.transparent,
+          buttonTheme: ButtonThemeData(
+            buttonColor: Colors.green,
           )),
+      // routes: getRouters(),
+      // onGenerateRoute: (RouteSettings settings) {
+      //   return MaterialPageRoute(builder: (context) {
+      //     String routeName = settings.name;
+      //     print("路由名称：$routeName");
+      //     // 如果访问的路由页需要登录，但当前未登录，则直接返回登录页路由，
+      //     // 引导用户登录；其它情况则正常打开路由。
+      //   });
+      // }
+      onGenerateRoute: Application.router.generator,
     );
   }
 }
